@@ -35,7 +35,7 @@ class _TeamButtonState extends State<TeamButton> {
                 color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold),
           ),
           Container(
-            width: 150,
+            width: 250,
             height: 200,
             decoration: BoxDecoration(
               color: Colors.blue,
