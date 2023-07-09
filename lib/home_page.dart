@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:score_volei/widgets/team_button.dart';
 
+import 'widgets/new_game_button.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -18,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          color: Colors.grey,
+          color: Colors.black,
         ),
         child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -29,17 +31,23 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TeamButton(
-                      color: Colors.blue,
+                      color: Colors.grey,
                       points: firstTeam,
-                      incrementScore: incrementFirstTeamScore,
                       teamName: "Time A",
+                      incrementScore: incrementFirstTeamScore,
+                      decrementScore: decrementFirstTeamScore,
                     ),
-                    const SizedBox(width: 50),
+                    const SizedBox(width: 40),
+                    NewGameButton(
+                      reset: reset,
+                    ),
+                    const SizedBox(width: 40),
                     TeamButton(
                       color: Colors.red,
                       points: secondTeam,
-                      incrementScore: incrementSecondTeamScore,
                       teamName: "Time B",
+                      incrementScore: incrementSecondTeamScore,
+                      decrementScore: decrementSecondTeamScore,
                     ),
                   ],
                 ),
@@ -58,6 +66,25 @@ class _HomePageState extends State<HomePage> {
   incrementSecondTeamScore() {
     setState(() {
       secondTeam++;
+    });
+  }
+
+  decrementFirstTeamScore() {
+    setState(() {
+      firstTeam--;
+    });
+  }
+
+  decrementSecondTeamScore() {
+    setState(() {
+      secondTeam--;
+    });
+  }
+
+  reset() {
+    setState(() {
+      firstTeam = 0;
+      secondTeam = 0;
     });
   }
 }

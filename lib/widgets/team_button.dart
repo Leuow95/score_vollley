@@ -4,14 +4,16 @@ class TeamButton extends StatefulWidget {
   final Color color;
   final int points;
   final Function incrementScore;
+  final Function decrementScore;
   final String teamName;
 
   const TeamButton({
     super.key,
     required this.color,
     required this.points,
-    required this.incrementScore,
     required this.teamName,
+    required this.incrementScore,
+    required this.decrementScore,
   });
 
   @override
@@ -21,46 +23,50 @@ class TeamButton extends StatefulWidget {
 class _TeamButtonState extends State<TeamButton> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        setState(() {
-          widget.incrementScore();
-        });
-      },
-      child: Column(
-        children: [
-          Text(
-            widget.teamName,
-            style: const TextStyle(
-                color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold),
+    return Column(
+      children: [
+        Text(
+          widget.teamName,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
           ),
-          Container(
-            width: 250,
+        ),
+        InkWell(
+          onTap: () {
+            setState(() {
+              widget.incrementScore();
+            });
+          },
+          child: Container(
+            width: 230,
             height: 200,
             decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(50),
+              color: widget.color,
+              borderRadius: BorderRadius.circular(10),
             ),
-            child: Container(
-              height: 150,
-              decoration: BoxDecoration(
-                color: widget.color,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Center(
-                child: Text(
-                  widget.points.toString(),
-                  style: const TextStyle(
-                    fontSize: 100,
-                    fontWeight: FontWeight.bold,
-                  ),
+            child: Center(
+              child: Text(
+                widget.points.toString(),
+                style: const TextStyle(
+                  fontSize: 100,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 20),
-          Container(
-            width: 150,
+        ),
+        const SizedBox(height: 20),
+        InkWell(
+          onTap: () {
+            setState(() {
+              widget.decrementScore();
+            });
+          },
+          child: Container(
+            width: 230,
             height: 50,
             decoration: BoxDecoration(
               color: widget.color,
@@ -69,7 +75,11 @@ class _TeamButtonState extends State<TeamButton> {
             child: const Center(
               child: Text(
                 "-1",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                  color: Colors.white,
+                ),
               ),
               // child: Icon(
               //   Icons.remove,
@@ -77,8 +87,8 @@ class _TeamButtonState extends State<TeamButton> {
               // ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
