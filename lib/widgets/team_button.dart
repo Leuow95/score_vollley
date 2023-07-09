@@ -41,7 +41,7 @@ class _TeamButtonState extends State<TeamButton> {
           },
           child: Container(
             width: 230,
-            height: 200,
+            height: 100,
             decoration: BoxDecoration(
               color: widget.color,
               borderRadius: BorderRadius.circular(10),

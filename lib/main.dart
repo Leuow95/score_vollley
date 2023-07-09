@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:score_volei/home_page.dart';
 
 void main() {
@@ -8,6 +9,8 @@ void main() {
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,
   ]);
+  MobileAds.instance.initialize();
+
   runApp(const MyApp());
 }
 

@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'package:score_volei/widgets/team_button.dart';
 
@@ -14,6 +17,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int firstTeam = 0;
   int secondTeam = 0;
+
+  BannerAd? _bannerAd;
+  bool _isLoaded = false;
+
+  @override
+  void initState() {
+    loadAd();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +61,9 @@ class _HomePageState extends State<HomePage> {
                       incrementScore: incrementSecondTeamScore,
                       decrementScore: decrementSecondTeamScore,
                     ),
+                    _bannerAd != null
+                        ? AdWidget(ad: _bannerAd!)
+                        : const SizedBox.shrink(),
                   ],
                 ),
               ),
@@ -86,5 +101,27 @@ class _HomePageState extends State<HomePage> {
       firstTeam = 0;
       secondTeam = 0;
     });
+  }
+
+  void loadAd() {
+    final adUnitId = Platform.isAndroid
+        ? 'ca-app-pub-6198660940043415/1144942851'
+        : 'ca-app-pub-3940256099942544/2934735716';
+    _bannerAd = BannerAd(
+      adUnitId: adUnitId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          debugPrint('$ad loaded.');
+          setState(() {
+            _isLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, error) {
+          debugPrint('$ad failedToLoad: $error');
+        },
+      ),
+    )..load();
   }
 }
