@@ -28,6 +28,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void dispose() {
+    _bannerAd?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -49,11 +55,11 @@ class _HomePageState extends State<HomePage> {
                       incrementScore: incrementFirstTeamScore,
                       decrementScore: decrementFirstTeamScore,
                     ),
-                    const SizedBox(width: 40),
+                    const SizedBox(width: 20),
                     NewGameButton(
                       reset: reset,
                     ),
-                    const SizedBox(width: 40),
+                    const SizedBox(width: 20),
                     TeamButton(
                       color: Colors.red,
                       points: secondTeam,
@@ -61,12 +67,16 @@ class _HomePageState extends State<HomePage> {
                       incrementScore: incrementSecondTeamScore,
                       decrementScore: decrementSecondTeamScore,
                     ),
-                    _bannerAd != null
-                        ? AdWidget(ad: _bannerAd!)
-                        : const SizedBox.shrink(),
                   ],
                 ),
               ),
+              _bannerAd != null
+                  ? SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: MediaQuery.of(context).size.height * 0.1,
+                      child: AdWidget(ad: _bannerAd!),
+                    )
+                  : Container(color: Colors.red, width: 50, height: 50),
             ]),
       ),
     );
@@ -110,7 +120,7 @@ class _HomePageState extends State<HomePage> {
     _bannerAd = BannerAd(
       adUnitId: adUnitId,
       request: const AdRequest(),
-      size: AdSize.banner,
+      size: AdSize.fullBanner,
       listener: BannerAdListener(
         onAdLoaded: (ad) {
           debugPrint('$ad loaded.');
@@ -121,6 +131,9 @@ class _HomePageState extends State<HomePage> {
         onAdFailedToLoad: (ad, error) {
           debugPrint('$ad failedToLoad: $error');
         },
+        onAdOpened: (ad) => debugPrint('$ad onAdOpened.'),
+        onAdClosed: (ad) => debugPrint('$ad onAdClosed.'),
+        onAdImpression: (ad) => debugPrint('$ad impression occurred.'),
       ),
     )..load();
   }
